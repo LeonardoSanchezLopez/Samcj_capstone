@@ -7,6 +7,11 @@ import { dateTime } from '../utils/format';
 
 const nav = [
   ['Dashboard','/admin/dashboard',LayoutDashboard],
+  ['Clientes','/admin/clientes',Users],
+  ['Servicios','/admin/servicios',FileText],
+  ['Inventario','/admin/inventario',PackageOpen],
+  ['OT clientes','/admin/ot-clientes',ClipboardCheck],
+  ['OT concesionarios','/admin/ot-concesionarios',CarFront],
 ];
 
 export default function AdminLayout(){
