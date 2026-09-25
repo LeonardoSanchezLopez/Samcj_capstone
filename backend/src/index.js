@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import authRoutes from './routes/auth.routes.js';
 import publicRoutes from './routes/public.routes.js';
 import customersRouter from './routes/admin/customers.routes.js';
+import dealershipsRouter from './routes/admin/dealerships.routes.js';
 import servicesRouter from './routes/admin/services.routes.js';
 import ordersRouter from './routes/admin/orders.routes.js';
 import inventoryRouter from './routes/admin/inventory.routes.js';
@@ -21,6 +22,7 @@ app.get('/api/health', (_req,res)=>res.json({ok:true,service:'SAMCJ Polarizados 
 app.use('/api/auth', (req,res,next)=>{res.set('Cache-Control','no-store');next()},authRoutes);
 app.use('/api/public',publicRoutes);
 app.use('/api/admin', customersRouter);
+app.use('/api/admin', dealershipsRouter);
 app.use('/api/admin', servicesRouter);
 app.use('/api/admin', ordersRouter);
 app.use('/api/admin', inventoryRouter);

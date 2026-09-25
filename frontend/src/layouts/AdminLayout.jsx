@@ -12,6 +12,7 @@ const nav = [
   ['Inventario','/admin/inventario',PackageOpen],
   ['OT clientes','/admin/ot-clientes',ClipboardCheck],
   ['OT concesionarios','/admin/ot-concesionarios',CarFront],
+  ['Concesionarios','/admin/concesionarios',Store],
 ];
 
 export default function AdminLayout(){
