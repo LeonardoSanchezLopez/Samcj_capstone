@@ -4,6 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import AdminLayout from './layouts/AdminLayout';
 import BookingPage from './pages/BookingPage';
+import DashboardPage from './pages/admin/DashboardPage';
 import CustomersPage from './pages/admin/CustomersPage';
 import ServicesPage from './pages/admin/ServicesPage';
 import InventoryPage from './pages/admin/InventoryPage';
@@ -17,7 +18,7 @@ export default function App(){return <Routes>
 <Route path="/reservar" element={<BookingPage/>}/>
 <Route path="/admin" element={<ProtectedRoute><AdminLayout/></ProtectedRoute>}>
 <Route index element={<Navigate to="dashboard" replace/>}/>
-<Route path="dashboard" element={<div className="admin-page"><h1>Panel administrativo</h1><p>Indicadores en preparacion.</p></div>}/>
+<Route path="dashboard" element={<DashboardPage/>}/>
 <Route path="clientes" element={<CustomersPage/>}/>
 <Route path="servicios" element={<ServicesPage/>}/>
 <Route path="inventario" element={<InventoryPage/>}/>
