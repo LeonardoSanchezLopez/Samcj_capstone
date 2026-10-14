@@ -11,6 +11,7 @@ import InventoryPage from './pages/admin/InventoryPage';
 import WorkOrdersPage from './pages/admin/WorkOrdersPage';
 import DealershipsPage from './pages/admin/DealershipsPage';
 import AppointmentsPage from './pages/admin/AppointmentsPage';
+import QuotesPage from './pages/admin/QuotesPage';
 
 function Pendiente({titulo}){return <main className="public-page"><div className="section"><h1>{titulo}</h1><p>Este modulo se integrara en la siguiente entrega.</p><a href="/">Volver al inicio</a></div></main>;}
 export default function App(){return <Routes>
@@ -27,6 +28,7 @@ export default function App(){return <Routes>
 <Route path="ot-concesionarios" element={<WorkOrdersPage type="CONCESIONARIO"/>}/>
 <Route path="concesionarios" element={<DealershipsPage/>}/>
 <Route path="citas" element={<AppointmentsPage/>}/>
+<Route path="cotizaciones" element={<QuotesPage/>}/>
 </Route>
 <Route path="*" element={<Navigate to="/" replace/>}/>
 </Routes>;}

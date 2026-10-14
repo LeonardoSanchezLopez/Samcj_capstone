@@ -14,6 +14,7 @@ const nav = [
   ['OT concesionarios','/admin/ot-concesionarios',CarFront],
   ['Concesionarios','/admin/concesionarios',Store],
   ['Citas','/admin/citas',CalendarDays],
+  ['Cotizaciones','/admin/cotizaciones',BadgeDollarSign],
 ];
 
 export default function AdminLayout(){
