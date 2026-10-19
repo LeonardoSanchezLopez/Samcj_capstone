@@ -18,6 +18,7 @@ import ordersRouter from './routes/admin/orders.routes.js';
 import inventoryRouter from './routes/admin/inventory.routes.js';
 import ratesRouter from './routes/admin/rates.routes.js';
 import notificationsRouter from './routes/admin/notifications.routes.js';
+import reportsRouter from './routes/admin/reports.routes.js';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -41,6 +42,7 @@ app.use('/api/admin', ordersRouter);
 app.use('/api/admin', inventoryRouter);
 app.use('/api/admin', ratesRouter);
 app.use('/api/admin', notificationsRouter);
+app.use('/api/admin', reportsRouter);
 app.use((req,res)=>res.status(404).json({message:'Ruta no encontrada'}));
 app.use((err,_req,res,_next)=>{console.error(err);res.status(err.status||500).json({message:err.message||'Error interno del servidor',details:process.env.NODE_ENV==='development'?err.details||null:undefined});});
 app.listen(port,()=>console.log(`API lista en http://localhost:${port}`));
