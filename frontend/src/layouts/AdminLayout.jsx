@@ -8,14 +8,14 @@ import { dateTime } from '../utils/format';
 const nav = [
   ['Dashboard','/admin/dashboard',LayoutDashboard],
   ['Clientes','/admin/clientes',Users],
-  ['Servicios','/admin/servicios',FileText],
-  ['Inventario','/admin/inventario',PackageOpen],
-  ['OT clientes','/admin/ot-clientes',ClipboardCheck],
-  ['OT concesionarios','/admin/ot-concesionarios',CarFront],
   ['Concesionarios','/admin/concesionarios',Store],
   ['Citas','/admin/citas',CalendarDays],
   ['Cotizaciones','/admin/cotizaciones',BadgeDollarSign],
-  ['Reportes','/admin/reportes',ChartNoAxesCombined],
+  ['OT clientes','/admin/ot-clientes',ClipboardCheck],
+  ['OT concesionarios','/admin/ot-concesionarios',CarFront],
+  ['Inventario','/admin/inventario',PackageOpen],
+  ['Servicios','/admin/servicios',FileText],
+  ['Reportes','/admin/reportes',ChartNoAxesCombined]
 ];
 
 export default function AdminLayout(){
