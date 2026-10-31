@@ -7,40 +7,30 @@ import authRoutes from './routes/auth.routes.js';
 import publicRoutes from './routes/public.routes.js';
 import inspectionRoutes from './routes/inspection.routes.js';
 import forecastRoutes from './routes/forecast.routes.js';
-import dashboardRouter from './routes/admin/dashboard.routes.js';
-import customersRouter from './routes/admin/customers.routes.js';
-import dealershipsRouter from './routes/admin/dealerships.routes.js';
-import servicesRouter from './routes/admin/services.routes.js';
-import calendar_blocksRouter from './routes/admin/calendar-blocks.routes.js';
-import appointmentsRouter from './routes/admin/appointments.routes.js';
-import quotesRouter from './routes/admin/quotes.routes.js';
-import ordersRouter from './routes/admin/orders.routes.js';
-import inventoryRouter from './routes/admin/inventory.routes.js';
-import ratesRouter from './routes/admin/rates.routes.js';
-import notificationsRouter from './routes/admin/notifications.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 
 const app = express();
 const port = process.env.PORT || 4000;
+
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173', credentials: false }));
 app.use(express.json({ limit: '6mb' }));
 app.use(morgan('dev'));
-app.get('/api/health', (_req,res)=>res.json({ok:true,service:'SAMCJ Polarizados API'}));
+
+app.get('/api/health', (_req, res) => res.json({ ok: true, service: 'SAMCJ Polarizados API' }));
 app.use('/api/auth', (req,res,next)=>{res.set('Cache-Control','no-store');next()},authRoutes);
-app.use('/api/public',publicRoutes);
+app.use('/api/public', publicRoutes);
 app.use('/api/admin',(req,res,next)=>{res.set('Cache-Control','no-store');next()},inspectionRoutes);
-app.use('/api/admin',forecastRoutes);
-app.use('/api/admin', dashboardRouter);
-app.use('/api/admin', customersRouter);
-app.use('/api/admin', dealershipsRouter);
-app.use('/api/admin', servicesRouter);
-app.use('/api/admin', calendar_blocksRouter);
-app.use('/api/admin', appointmentsRouter);
-app.use('/api/admin', quotesRouter);
-app.use('/api/admin', ordersRouter);
-app.use('/api/admin', inventoryRouter);
-app.use('/api/admin', ratesRouter);
-app.use('/api/admin', notificationsRouter);
-app.use((req,res)=>res.status(404).json({message:'Ruta no encontrada'}));
-app.use((err,_req,res,_next)=>{console.error(err);res.status(err.status||500).json({message:err.message||'Error interno del servidor',details:process.env.NODE_ENV==='development'?err.details||null:undefined});});
-app.listen(port,()=>console.log(`API lista en http://localhost:${port}`));
+app.use('/api/admin', forecastRoutes);
+app.use('/api/admin', adminRoutes);
+
+app.use((req, res) => res.status(404).json({ message: 'Ruta no encontrada' }));
+app.use((err, _req, res, _next) => {
+  console.error(err);
+  res.status(err.status || 500).json({
+    message: err.message || 'Error interno del servidor',
+    details: process.env.NODE_ENV === 'development' ? err.details || null : undefined
+  });
+});
+
+app.listen(port, () => console.log(`API lista en http://localhost:${port}`));

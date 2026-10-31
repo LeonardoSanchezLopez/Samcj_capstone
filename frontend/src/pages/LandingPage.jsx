@@ -1,27 +1,35 @@
-import { useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import { useToast } from '../context/ToastContext';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, CalendarDays, Car, CheckCircle2, Clock3, Home, MapPin, ShieldCheck, Sparkles, SunMedium, ThermometerSun } from 'lucide-react';
+import api from '../services/api';
+import heroCar from '../assets/hero-car.png';
+import referenceCar from '../assets/carro-referencia-demo.png';
 
-export default function LoginPage(){
-  const [form,setForm]=useState({email:'',password:''});
-  const [show,setShow]=useState(false); const [loading,setLoading]=useState(false);
-  const {login,user,loading:authLoading}=useAuth(); const {show:toast}=useToast(); const nav=useNavigate();
-  const submit=async(e)=>{e.preventDefault();setLoading(true);try{await login(form.email,form.password);toast('Bienvenido al panel administrativo');nav('/admin/dashboard',{replace:true});}catch(err){toast(err.response?.data?.message||'No se pudo iniciar sesión','error');}finally{setLoading(false)}};
-  if(authLoading)return <div className="screen-loader">Comprobando sesión...</div>;
-  if(user)return <Navigate to="/admin/dashboard" replace/>;
-  return <div className="login-page">
-    <Link className="back-link" to="/"><ArrowLeft size={17}/> Volver al sitio</Link>
-    <div className="login-grid">
-      <section className="login-copy"><span className="brand-mark large">S</span><span className="eyebrow">PANEL ADMINISTRATIVO</span><h1>Controla citas, órdenes e inventario desde un solo lugar.</h1><div className="login-benefits"><span><ShieldCheck/>Acceso exclusivo para administradores</span><span><LockKeyhole/>Autenticación administrada por Supabase Auth</span></div></section>
-      <form className="login-card" onSubmit={submit}>
-        <div><span className="eyebrow">INICIAR SESIÓN</span><h2>Bienvenido</h2><p>Ingresa con la cuenta de administrador registrada en Supabase.</p></div>
-        <label><span>Correo</span><div className="input-icon"><Mail size={18}/><input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="admin@empresa.com" required/></div></label>
-        <label><span>Contraseña</span><div className="input-icon"><LockKeyhole size={18}/><input type={show?'text':'password'} value={form.password} onChange={e=>setForm({...form,password:e.target.value})} placeholder="••••••••" required/><button type="button" onClick={()=>setShow(!show)}>{show?<EyeOff size={18}/>:<Eye size={18}/>}</button></div></label>
-        <button className="btn primary full" disabled={loading}>{loading?'Ingresando...':'Ingresar al panel'}</button>
-        
-      </form>
-    </div>
-  </div>;
+const tones={100:.03,70:.18,50:.42,35:.88,5:.97};
+const toneNames={100:'Transparente',70:'Ahumada',50:'Intermedio',35:'Casi negro',5:'Negro'};
+
+export default function LandingPage(){
+ const[config,setConfig]=useState(null);const[tone,setTone]=useState(50);const[menu,setMenu]=useState(false);
+ useEffect(()=>{api.get('/public/bootstrap').then(r=>setConfig(r.data.configuracion)).catch(()=>{});},[]);
+ const alpha=tones[tone];
+ return <div className="public-page landing-v2">
+  <header className="public-nav"><Link to="/" className="brand"><span className="brand-mark">S</span><span><strong>SAMCJ</strong><small>Polarizados</small></span></Link><button className="landing-menu-btn" onClick={()=>setMenu(v=>!v)} aria-label="Abrir menú">☰</button><nav className={`nav-links ${menu?'open':''}`}><a href="#servicios" onClick={()=>setMenu(false)}>Servicios</a><a href="#tonalidades" onClick={()=>setMenu(false)}>Tonalidades</a><a href="#laminas" onClick={()=>setMenu(false)}>Láminas</a><a href="#proceso" onClick={()=>setMenu(false)}>Proceso</a><a href="#ubicacion" onClick={()=>setMenu(false)}>Ubicación</a></nav><div className="nav-actions"><Link className="btn ghost small" to="/login">Iniciar sesión</Link><Link className="btn primary small" to="/reservar">Reservar cita <ArrowRight size={16}/></Link></div></header>
+  <main>
+   <section className="hero-section hero-v2"><div className="hero-copy reveal-up"><span className="eyebrow">POLARIZADO VEHICULAR · TRUJILLO</span><h1>Más privacidad, confort y estilo <span>antes de salir a la calle.</span></h1><p>Reserva tu cita, recibe una orientación preliminar y visualiza de forma referencial la tonalidad de tus lunas antes del servicio.</p><div className="hero-actions"><Link className="btn primary hero-cta" to="/reservar">Reservar una cita <ArrowRight size={18}/></Link><a className="btn ghost" href="#tonalidades">Probar tonalidades</a></div><div className="hero-facts"><span><Clock3 size={17}/> Aproximadamente 2 h en local</span><span><Home size={17}/> Domicilio sin costo adicional</span></div></div><div className="hero-visual hero-visual-v2"><div className="hero-glow"/><div className="hero-orbit orbit-one"/><div className="hero-orbit orbit-two"/><img src={heroCar} alt="Vehículo blanco de referencia"/><div className="floating-card fc-one"><ShieldCheck size={20}/><div><strong>5 tonalidades</strong><small>100 · 70 · 50 · 35 · 5%</small></div></div><div className="floating-card fc-two"><CalendarDays size={20}/><div><strong>Agenda inteligente</strong><small>Disponibilidad cada 30 min</small></div></div></div></section>
+
+   <section className="landing-metrics"><article><strong>4</strong><span>marcas de lámina</span></article><article><strong>5</strong><span>niveles de tonalidad</span></article><article><strong>2</strong><span>modalidades de atención</span></article><article><strong>Hasta 5</strong><span>atenciones al día</span></article></section>
+
+   <section id="servicios" className="section"><div className="section-head"><span className="eyebrow">SERVICIO PRINCIPAL</span><h2>Una experiencia de reserva pensada para llegar con una elección clara.</h2><p>El sistema guía al cliente y deja la decisión definitiva para la validación con el especialista.</p></div><div className="feature-grid feature-grid-v2"><article className="feature-card interactive-card"><Car/><h3>Según tu vehículo</h3><p>Sedán, SUV/Hatchback y Camioneta cerrada/Pickup con cotización según categoría y marca de lámina.</p></article><article className="feature-card interactive-card"><Sparkles/><h3>Orientación preliminar</h3><p>Responde preguntas rápidas y recibe una sugerencia visual de marca y tonalidad.</p></article><article className="feature-card interactive-card"><MapPin/><h3>Local o domicilio</h3><p>Elige dónde prefieres recibir el servicio. La atención a domicilio no tiene recargo.</p></article><article className="feature-card interactive-card"><ThermometerSun/><h3>Confort</h3><p>Compara opciones según privacidad, visibilidad y protección frente al calor.</p></article></div></section>
+
+   <section id="tonalidades" className="section tint-experience"><div className="tint-copy"><span className="eyebrow">PRUEBA VISUAL</span><h2>Explora la tonalidad antes de reservar.</h2><p>Selecciona un porcentaje y observa una simulación referencial. El resultado real puede variar según la lámina y el vehículo.</p><div className="tone-buttons">{[100,70,50,35,5].map(x=><button key={x} className={tone===x?'active':''} onClick={()=>setTone(x)}><strong>{x}%</strong><span>{toneNames[x]}</span></button>)}</div></div><div className="landing-car-card"><div className="preview-head"><div><span>Vista referencial</span><strong>{tone}% · {toneNames[tone]}</strong></div><span className="tone-pill">{tone}%</span></div><div className="demo-car-stage landing-demo-car"><img className="demo-car-image" src={referenceCar} alt="Vehículo con tonalidad de referencia"/><svg className="demo-tint-overlay" viewBox="0 0 554 554" aria-hidden="true"><path className="demo-window-film" style={{fill:`rgba(8,14,22,${alpha})`}} d="M198 258 L225 241 Q267 231 314 234 L309 266 L205 270 Z"/><path className="demo-window-film" style={{fill:`rgba(8,14,22,${alpha})`}} d="M328 234 Q362 238 392 250 L409 260 L409 264 L332 264 Z"/></svg></div><Link className="btn primary full" to="/reservar">Usar el configurador completo <ArrowRight size={17}/></Link></div></section>
+
+   <section id="laminas" className="section split-section"><div><span className="eyebrow">LÁMINAS</span><h2>Estándar o Premium, siempre con una elección transparente.</h2><p className="muted">La cotización depende de la categoría del vehículo y la marca seleccionada. La tonalidad no cambia el precio.</p></div><div className="brand-panels"><div className="brand-panel interactive-card"><small>ESTÁNDAR</small><strong>Nexfil USA</strong><strong>Stek</strong><span>Rollos de 45 m</span></div><div className="brand-panel premium interactive-card"><small>PREMIUM</small><strong>Llumar</strong><strong>3M</strong><span>Rollos de 35 m</span></div></div></section>
+
+   <section id="proceso" className="section"><div className="section-head"><span className="eyebrow">TU RESERVA</span><h2>De la cita a la validación, sin pasos innecesarios.</h2></div><div className="steps-grid">{[['01','Reserva','Elige fecha, hora y lugar del servicio.'],['02','Registra','Ingresa tus datos y la información del vehículo.'],['03','Responde','Completa las preguntas rápidas sobre tus preferencias.'],['04','Visualiza','Revisa la recomendación y compara la opacidad de las lunas.'],['05','Confirma','Obtén tu cotización preliminar y descarga el resumen en PDF.']].map(x=><article key={x[0]} className="step-card interactive-card"><span>{x[0]}</span><h3>{x[1]}</h3><p>{x[2]}</p></article>)}</div></section>
+
+
+   <section id="ubicacion" className="section location-card location-v2"><div><span className="eyebrow">ATENCIÓN</span><h2>Reserva en el local o solicita atención a domicilio.</h2><p>{config?.direccion_local||'Dirección del local configurada en el sistema.'}</p></div><Link className="btn primary" to="/reservar">Reservar ahora <ArrowRight size={18}/></Link></section>
+  </main>
+  <footer className="public-footer"><div className="brand"><span className="brand-mark">S</span><span><strong>SAMCJ</strong><small>Polarizados</small></span></div><p>© 2026 SAMCJ S.A.C. · Gestión de citas, cotizaciones y servicios de polarizado.</p></footer>
+ </div>;
 }
