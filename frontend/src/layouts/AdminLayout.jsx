@@ -15,6 +15,7 @@ const nav = [
   ['Concesionarios','/admin/concesionarios',Store],
   ['Citas','/admin/citas',CalendarDays],
   ['Cotizaciones','/admin/cotizaciones',BadgeDollarSign],
+  ['Reportes','/admin/reportes',ChartNoAxesCombined],
 ];
 
 export default function AdminLayout(){
